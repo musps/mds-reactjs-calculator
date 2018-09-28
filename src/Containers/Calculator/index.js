@@ -2,21 +2,27 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Calculator from '../../Components/Calculator'
+import { calculatorAddQuery } from '../../Store/calculator/actions'
 
-const onClickKey = (event, { value }) => {
-  console.log('onClickKey', value)
+const onClickKey = (event, { value }, dispatch) => {
+  dispatch(calculatorAddQuery(value))
 }
+
+const queryToString = query => query.join(' ')
 
 class CalculatorContainer extends Component {
   componentDidMount() {
-    console.log('props', this.props)
+    //.
   }
 
   render() {
+    const { dispatch, calculator: { sum, query } } = this.props
+
     return (
       <Calculator
-        screenContent='0'
-        onClickKey={onClickKey} 
+        query={queryToString(query)}
+        sum={sum}
+        onClickKey={(event, props) => onClickKey(event, props, dispatch)} 
       />
     )
   }

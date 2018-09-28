@@ -1,9 +1,11 @@
 import React from 'react'
 import { Segment } from 'semantic-ui-react'
 
-const Screen = ({ content }) => (
+const Screen = ({ query, sum }) => (
   <Segment attached className='screen'>
-    {content}
+    {query}
+    <hr />
+    {sum}
   </Segment>
 )
 

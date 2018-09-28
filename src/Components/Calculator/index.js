@@ -6,9 +6,9 @@ import Key from './Key'
 import Keys from './Keys'
 import Screen from './Screen'
 
-const Calculator = ({ screenContent, onClickKey }) => (
+const Calculator = ({ query, sum, onClickKey }) => (
   <Grid.Calculator>
-    <Screen content={screenContent} />
+    <Screen query={query} sum={sum} />
     <Keys>
       <Grid.Col>
         <Grid.Row>
