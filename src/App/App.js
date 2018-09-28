@@ -1,13 +1,17 @@
 import React from 'react'
+import { Provider } from 'react-redux'
 import './App.scss'
-import './Keys.styles.scss'
 
-import Calculator from '../Components/Calculator'
+import rootStore from '../Store/rootStore'
+
+import CalculatorContainer from '../Containers/Calculator'
 
 const App = () => (
-  <div className="main">
-    <Calculator />
-  </div>
+  <Provider store={rootStore}>
+    <div className="main">
+      <CalculatorContainer />
+    </div>
+  </Provider>
 )
 
 export default App

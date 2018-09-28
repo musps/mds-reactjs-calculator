@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Button } from 'semantic-ui-react'
 import classNames from 'classnames'
 
@@ -18,11 +18,35 @@ const keyClassName = (type) => (classNames({
   [type]: type !== false
 }))
 
-const Key = ({ content, type = false }) => (
+const Key = ({ 
+  value,
+  content,
+  type = false,
+  onClick
+}) => (
   <Button
     className={keyClassName(typeToString(type))}
+    value={value}
     content={content}
+    onClick={onClick}
   />
 )
 
-export default Key
+class KeyComponent extends  Component {
+  state = {
+    value: ''
+  }
+
+  render () {
+    const { value, content, type, onClick } = this.props
+
+    return <Key
+      value={value}
+      content={content}
+      type={type}
+      onClick={onClick}
+    />
+  }
+}
+
+export default KeyComponent

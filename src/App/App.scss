@@ -8,9 +8,10 @@ body {
 
 .main {
   width: 100%;
-  max-width: 850px;
   margin: 0 auto;
   padding: 50px 20px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

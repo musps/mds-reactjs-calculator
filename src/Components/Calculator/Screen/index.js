@@ -1,9 +1,9 @@
 import React from 'react'
 import { Segment } from 'semantic-ui-react'
 
-const Screen = () => (
+const Screen = ({ content }) => (
   <Segment attached className='screen'>
-    0
+    {content}
   </Segment>
 )
 
