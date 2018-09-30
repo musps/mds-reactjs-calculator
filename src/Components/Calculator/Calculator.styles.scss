@@ -9,6 +9,13 @@
 .screen {
   padding: 20px !important;
   text-align: right;
+
+  &__input {
+    width: 100%;
+    input {
+      text-align: right;
+    }
+  }
 }
 
 .keys {

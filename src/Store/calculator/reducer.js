@@ -1,58 +1,74 @@
 const defaultState = {
-  sum: 10,
-  query: []
+  sum: '',
+  currentValue: '',
+  operator: null
 }
 
-const actionList = ['.', '=', '+', '-', 'x']
+const dot = '.'
+const maker = '='
+const operators = ['+', '-', 'x']
 
-const checkIsOperator = nextValue => (actionList.indexOf(nextValue) !== -1)
-
-const makeQuery = (state, nextValue) => {
-  console.log('makeQuery', nextValue)
-  return mergeQuery(state, nextValue)
-}
+const isOperator = nextValue => (operators.indexOf(nextValue) !== -1)
+const containsDot = value => (value.indexOf(dot) !== -1)
 
 const mergeQuery = (state, nextValue) => ({
   ...state,
-  query: [...state.query, nextValue]
+  currentValue: state.currentValue + nextValue
 })
 
-const updateQuery = (state, lastQuery, nextValue) => {
-  nextValue = lastQuery.value + nextValue
-  state.query[lastQuery.index] = nextValue
-  return {...state}
-}
+const addOperator = (state, nextValue) => ({
+  sum: state.currentValue,
+  currentValue: '',
+  operator: nextValue
+})
 
-const getLastQuery = (state) => {
-  const arrSize = state.query.length
-  if (arrSize === 0) {
-    return false
+const makeQuery = (state) => {
+  let { sum, currentValue, operator } = state
+
+  try {
+    sum = new Number(sum)
+    currentValue = new Number(currentValue)
+
+    switch (operator) {
+      case '+':
+        sum = sum + currentValue
+      break;
+      case '-':
+        sum = sum - currentValue
+      break;
+      case 'x':
+        sum = sum * currentValue
+      break;
+    }
+  } catch (e) {
+    return state
   }
-  const lastQueryIndex = arrSize - 1
+
   return {
-    index: lastQueryIndex,
-    value: state.query[lastQueryIndex]
+    sum: '',
+    currentValue: sum.toString(),
+    operator: null
   }
 }
 
 const addQuery = (state, nextValue) => {
-  const isOperator = checkIsOperator(nextValue)
-  const lastQuery = getLastQuery(state)
+  const { sum, currentValue, operator } = state
+  const respIsOperator = isOperator(nextValue)
+  const respContainsDot = containsDot(currentValue)
 
-  console.log('addQuery', {
-    nextValue,
-    isOperator,
-    lastQuery: lastQuery
-  })
-
-  if (isOperator) {
-    return makeQuery(state, nextValue)
-  } else if (lastQuery === false) {
-    return mergeQuery(state, nextValue)
-  } else if (checkIsOperator(lastQuery.value)) {
-    return mergeQuery(state, nextValue)
-  } else {
-    return updateQuery(state, lastQuery, nextValue)
+  switch (true) {
+    case respIsOperator && currentValue !== '' && operator === null:
+      return addOperator(state, nextValue)
+      break;
+    case nextValue === '=' && sum !== '' && currentValue !== '' && operator !== null:
+      return makeQuery(state)
+      break;
+    case (!respIsOperator && nextValue !== dot) || (!respIsOperator && nextValue === dot && !respContainsDot):
+      return mergeQuery(state, nextValue)
+      break;
+    default:
+      return state
+      break;
   }
 }
 
@@ -63,7 +79,7 @@ const reducer = (state = defaultState, action) => {
       break;
     default:
       return state
-    break;
+      break;
   }
 }
 

@@ -8,19 +8,14 @@ const onClickKey = (event, { value }, dispatch) => {
   dispatch(calculatorAddQuery(value))
 }
 
-const queryToString = query => query.join(' ')
-
 class CalculatorContainer extends Component {
-  componentDidMount() {
-    //.
-  }
-
   render() {
-    const { dispatch, calculator: { sum, query } } = this.props
+    const { dispatch, calculator: { sum, currentValue, operator } } = this.props
 
     return (
       <Calculator
-        query={queryToString(query)}
+        currentValue={currentValue}
+        operator={operator}
         sum={sum}
         onClickKey={(event, props) => onClickKey(event, props, dispatch)} 
       />
